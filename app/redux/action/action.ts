@@ -68,10 +68,11 @@ export const deleteContact = async (dispatch: any, id: any) => {
   }
 };
 
-export const updateContact = async (payload: any) => {
+export const updateContact = async ( dispatch: any, payload: any) => {
   try {
     const requestUrl = `${apiUrl}/${payload.id}`;
     const result = await axios.put(requestUrl, payload)
+    dispatch(fetchContacts());
     showSnackBar('success edit contact', 'success')
     return result;
   } catch (error) {

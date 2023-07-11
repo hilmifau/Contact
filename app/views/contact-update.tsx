@@ -40,7 +40,6 @@ export const ContactUpdate = (props: any) => {
       fetchContact(route.params.id);
       onChangeFirstName(contactDetail.firstName)
       onChangeLastName(contactDetail.lastName)
-      // onChangeAge(contactDetail.age)
       setImage(contactDetail.photo)
     }
     
@@ -123,7 +122,8 @@ export const ContactUpdate = (props: any) => {
           age,
           photo: image
         }
-        updateContact(payload);
+        console.log("payload", payload);
+        updateContact(dispatch, payload);
       }
       navigation.goBack();
     }
