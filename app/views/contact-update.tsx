@@ -48,17 +48,22 @@ export const ContactUpdate = (props: any) => {
   const requestCameraPermission = async ( type: any, options: any) => {
     setModalVisible(!modalVisible);
     try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.CAMERA,
-        {
-          title: "App Camera Permission",
-          message:"App needs access to your camera ",
-          buttonNeutral: "Ask Me Later",
-          buttonNegative: "Cancel",
-          buttonPositive: "OK"
-        }
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      // const granted = await PermissionsAndroid.request(
+      //   PermissionsAndroid.PERMISSIONS.CAMERA,
+      //   {
+      //     title: "App Camera Permission",
+      //     message:"App needs access to your camera ",
+      //     buttonNeutral: "Ask Me Later",
+      //     buttonNegative: "Cancel",
+      //     buttonPositive: "OK"
+      //   }
+      // );
+      const granted = await PermissionsAndroid.requestMultiple(
+        [PermissionsAndroid.PERMISSIONS.CAMERA,
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE]
+      )
+      // if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      if (granted['android.permission.CAMERA'] && granted['android.permission.WRITE_EXTERNAL_STORAGE']) {
         console.log("Camera permission given");
         if (type === 'capture') {
           launchCamera(options, (res) => {
