@@ -34,7 +34,7 @@ export const ContactDetail =(props: any) => {
         <>
           <View>
           {
-            contactDetail.photo.startsWith("http") || contactDetail.photo.startsWith("file") ? 
+            contactDetail.photo.startsWith("file") ? 
             <View>
               <ImageBackground
               source={{ uri: contactDetail ? contactDetail.photo : "" }}
@@ -90,11 +90,11 @@ export const ContactDetail =(props: any) => {
                 <Text style={styles.mainText}>{contactDetail.firstName + " " + contactDetail.lastName}</Text>
               </View>
               <View style={{ flexDirection: 'row', justifyContent: 'center'}}>
-                <Text style={{ fontSize: 18}}>mobile</Text>
+                <Text style={{ fontSize: 18, color: 'grey'}}>mobile</Text>
                 <Text style={styles.mainPhone}>+62821-1221-2112</Text>
               </View>
               <View style={{ flexDirection: 'row', justifyContent: 'center'}}>
-                <Text style={{ fontSize: 18}}>age</Text> 
+                <Text style={{ fontSize: 18, color: 'grey', alignSelf: 'center'}}>age</Text> 
                 <Text style={styles.mainAge}>{contactDetail.age}</Text>
               </View>
               <View style={styles.sim}>
@@ -255,9 +255,11 @@ const styles = StyleSheet.create({
   card: {
     flex: 1,
     backgroundColor: 'white',
-    borderTopRightRadius: 20,
-    borderTopLeftRadius: 20,
-    marginTop : DimHeight(-2)
+    borderTopRightRadius: 30,
+    borderTopLeftRadius: 30,
+    marginTop : DimHeight(-3),
+    elevation: 9,
+    shadowColor: '#014c75',
   }, 
   backgroundImage: {
     width: Dimensions.get('screen').width,
@@ -274,7 +276,7 @@ const styles = StyleSheet.create({
   mainAge:{
     fontSize: DimWidth(6),
     color: '#262626',
-    paddingLeft: DimWidth(3)
+    paddingLeft: DimWidth(2)
   },
   mainPhone:{
     fontSize: DimWidth(6),

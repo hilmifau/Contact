@@ -21,6 +21,7 @@ export const Contact = (props: any ) => {
   const dispatch = useDispatch();
   const [id, setId] = useState(null)
   const [modalVisible, setModalVisible] = useState(false);
+  const [fetchData, setFetchData] = useState(false);
 
   useEffect(() => {
     getAllEntities();
@@ -40,6 +41,14 @@ export const Contact = (props: any ) => {
     setId(id);
     setModalVisible(!modalVisible);
   };
+
+  const onRefresh = () => {
+    setFetchData(true);
+    getAllEntities();
+    setTimeout(() => {
+      setFetchData(false)
+    }, 2000);
+}
 
   return (
     <View style={styles.container}>
@@ -82,6 +91,8 @@ export const Contact = (props: any ) => {
           <FlatList 
             data={contactList}
             keyExtractor={(item) => item.id}
+            onRefresh={onRefresh}
+            refreshing={fetchData}
             renderItem={({ item }) => (
               <TouchableOpacity
                 onPress={() => navigation.navigate('ContactDetail', { id: item.id})}
@@ -156,7 +167,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 5,
     margin: 5,
-    elevation: 4
+    elevation: 4,
+    shadowColor: '#014c75',
   },
   infoContainer: {
     flexDirection: 'row',
@@ -213,7 +225,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: '#F9F6EE',
+    backgroundColor: '#F9F5F6',
     borderRadius: 20,
     padding: DimWidth(6),
     alignItems: 'center',

@@ -73,6 +73,7 @@ export const updateContact = async ( dispatch: any, payload: any, id:any) => {
     const requestUrl = `${apiUrl}/${id}`;
     const result = await axios.put(requestUrl, payload)
     dispatch(fetchContacts());
+    dispatch(fetchContact(id));
     showSnackBar('success edit contact', 'success')
     return result;
   } catch (error) {
