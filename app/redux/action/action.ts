@@ -68,9 +68,9 @@ export const deleteContact = async (dispatch: any, id: any) => {
   }
 };
 
-export const updateContact = async ( dispatch: any, payload: any) => {
+export const updateContact = async ( dispatch: any, payload: any, id:any) => {
   try {
-    const requestUrl = `${apiUrl}/${payload.id}`;
+    const requestUrl = `${apiUrl}/${id}`;
     const result = await axios.put(requestUrl, payload)
     dispatch(fetchContacts());
     showSnackBar('success edit contact', 'success')

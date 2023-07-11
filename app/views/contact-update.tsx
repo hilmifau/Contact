@@ -122,8 +122,7 @@ export const ContactUpdate = (props: any) => {
           age,
           photo: image
         }
-        console.log("payload", payload);
-        updateContact(dispatch, payload);
+        updateContact(dispatch, payload, contactDetail.id);
       }
       navigation.goBack();
     }

@@ -11,12 +11,16 @@ import {
   FlatList,
   TouchableOpacity,
   ActivityIndicator,
+  Modal,
+  Pressable
 } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 export const Contact = (props: any ) => {
   const { contactList, navigation } = props; 
   const dispatch = useDispatch();
+  const [id, setId] = useState(null)
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     getAllEntities();
@@ -26,12 +30,52 @@ export const Contact = (props: any ) => {
     props.fetchContacts();
   };
 
-  const deleteItem = (id: any) => {
+  const deleteItem = () => {
+    setModalVisible(!modalVisible);
     deleteContact(dispatch, id);
+    
+  };
+
+  const passId = (id: any) => {
+    setId(id);
+    setModalVisible(!modalVisible);
   };
 
   return (
     <View style={styles.container}>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={{ fontSize: DimWidth(5), color: 'black', paddingVertical: DimHeight(3)}}>Delete Contact ?</Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => deleteItem()}>
+                <FontAwesome
+                  name="check"
+                  size={20}
+                  color="#262626"
+                />
+              </Pressable>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => setModalVisible(!modalVisible)}>
+                  <FontAwesome
+                    name="times"
+                    size={20}
+                    color="#262626"
+                  />
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
       {
         contactList.length > 0 ? 
         <Fragment>
@@ -55,7 +99,7 @@ export const Contact = (props: any ) => {
                     <View style={styles.colRight}>
                       <TouchableOpacity
                         style={{ alignSelf: 'flex-end'}}
-                        onPress={() => {deleteItem(item.id)}} 
+                        onPress={() => {passId(item.id)}} 
                       >
                         <FontAwesome
                           name="trash"
@@ -73,6 +117,7 @@ export const Contact = (props: any ) => {
             <TouchableOpacity
               style={{ alignSelf: 'center'}}
               onPress={() => navigation.navigate('ContactUpdate')}
+              testID="addContactButton"
             >
               <FontAwesome
                 name="plus"
@@ -94,7 +139,7 @@ export const Contact = (props: any ) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: '#F9F6EE	',
   },
   addIcon: { 
     position:'absolute',
@@ -108,13 +153,16 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: 'white',
-    padding: 10,
+    borderRadius: 5,
+    padding: 5,
     margin: 5,
+    elevation: 4
   },
   infoContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 5
+    paddingVertical: 8,
+    paddingHorizontal: 5
   },
   primaryText: {
     fontSize: DimWidth(5),
@@ -158,6 +206,41 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end'
   },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: '#F9F6EE',
+    borderRadius: 20,
+    padding: DimWidth(6),
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 9,
+  },
+  button: {
+    borderRadius: 10,
+    padding: 10,
+  },
+  buttonClose: {
+    marginHorizontal: DimWidth(4),
+  },
+  modalText: {
+    borderRadius: 10,
+    fontWeight: 'bold',
+    marginBottom: 15,
+    textAlign: 'center',
+    color: 'black',
+    fontSize: DimWidth(5)
+  }
 })
 
 const mapStateToProps = ({ contactReducer } : any) => ({
